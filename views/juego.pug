@@ -4,7 +4,7 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
         script(src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4")   
-        title Document
+        title Geoquiz - Juego
     body(class=`bg-gradient-to-r from-blue-600 to-lime-400 text-4xl font-mono`) 
             .pregunta(class='ml-auto mr-auto mt-30 mb-auto w-fit border-4 p-10 bg-white')
 
@@ -14,12 +14,9 @@ html(lang="en")
             .btn_opciones(class='grid grid-cols-2 w-170 ml-auto mr-auto mt-25 mb-auto gap-5')
                 each val in paises_random
                     if val.correcta
-                        //- button#green(class='bg-lime-500 p-4 rounded-4xl hover:-translate-y-1')= val.correcta
-                        button#green(class='bg-white p-4 rounded-4xl hover:-translate-y-1')= val.correcta
+                        button#green(class='bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-black hover:text-white')= val.correcta
                     else 
-                        //- button#red(class='bg-red-500 p-4 rounded-4xl hover:-translate-y-1')= val.incorrecta
-                        button#red(class='bg-white p-4 rounded-4xl hover:-translate-y-1')= val.incorrecta
-                    //- button(class='bg-white p-4 rounded-4xl hover:bg-gray-400')= val
+                        button#red(class='bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-black hover:text-white')= val.incorrecta
 
     script.
 
@@ -38,5 +35,4 @@ html(lang="en")
                 }
                 
                 green.style.backgroundColor = '#84cc16'
-                //- red.style.backgroundColor = '#ef4444'
             })
