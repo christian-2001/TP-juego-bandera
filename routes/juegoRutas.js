@@ -13,5 +13,6 @@ router.get('/otraruta', (req, res) => {
 
     // fetchCapitales(req, res)
     // fetchBanderas(req, res)
-
+    // fetchLimitrofes(req, res)
+    
 })
