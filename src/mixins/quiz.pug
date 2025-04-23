@@ -1,0 +1,25 @@
+mixin quiz(setPreguntas, pregunta_index)
+
+    .pregunta(class='ml-auto mr-auto mt-30 mb-auto w-fit border-4 p-10 bg-white')
+
+        if setPreguntas[pregunta_index].capital
+
+            h1#pregunta ¿Cual es el país de la siguiente <span class='text-blue-500'>ciudad capital</span>?
+            h1#item(class='text-center mt-10 text-blue-500') #{setPreguntas[pregunta_index].capital}
+                    
+        else if setPreguntas[pregunta_index].bandera
+
+            h1#pregunta El país xx esta representado por la siguiente bandera
+            img#item(src=setPreguntas[pregunta_index].bandera height='300px' class='border-4 border-solid mt-10 w-auto ml-auto mr-auto')
+
+        else if setPreguntas[pregunta_index].pais
+
+            h1#pregunta ¿Cuantos países limítrofes tiene el siguiente <span class='text-green-600'>país</span>?
+            h1#item(class='text-center mt-10 text-green-600') #{setPreguntas[pregunta_index].pais}
+
+    .btn_opciones(class='grid grid-cols-2 w-170 ml-auto mr-auto mt-25 mb-auto gap-5')
+        each val in setPreguntas[pregunta_index].respuestas
+            if val.correcta !== undefined
+                button#green(class='bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()')= val.correcta
+            else 
+                button(class='red bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_incorrectas()')= val.incorrecta

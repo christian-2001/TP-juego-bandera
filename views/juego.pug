@@ -1,34 +1,20 @@
-doctype doctype html
+include ../src/mixins/quiz
+doctype
 html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
+
+        script.
+            const preguntas = !{JSON.stringify(setPreguntas)}
+            const index = !{pregunta_index}
+            
         script(src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4")   
         title Geoquiz - Juego
-    body(class=`bg-gradient-to-r from-blue-600 to-lime-400 text-4xl font-mono`) 
-            .pregunta(class='ml-auto mr-auto mt-30 mb-auto w-fit border-4 p-10 bg-white')
 
-                if select_capital
+    body#juego(class=`bg-gradient-to-r from-blue-600 to-lime-400 text-4xl font-mono`) 
 
-                    h1 ¿Cual es el país de la siguiente <span class='text-blue-500'>ciudad capital</span>?
-                    h1(class='text-center mt-10 text-blue-500') #{select_capital}
-                
-                else if select_bandera
+        +quiz(setPreguntas, pregunta_index)
 
-                    h1 El país xx esta representado por la siguiente bandera
-                    img(src=select_bandera  height='300px' class='border-4 border-solid mt-10 w-auto ml-auto mr-auto')
-
-                else if select_pais
-
-                    h1 ¿Cuantos países limítrofes tiene el siguiente <span class='text-green-600'>país</span>?
-                    h1(class='text-center mt-10 text-green-600') #{select_pais}
-
-            .btn_opciones(class='grid grid-cols-2 w-170 ml-auto mr-auto mt-25 mb-auto gap-5')
-                each val in arr_random
-                    if val.correcta
-                        button#green(class='bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-black hover:text-white' onclick='resp_correcta()')= val.correcta
-                    else 
-                        button(class='red bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-black hover:text-white' onclick='resp_incorrectas()')= val.incorrecta
-
-    script(src='/js/botones.js')
+    script(src='/js/botones.js' defer)
 

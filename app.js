@@ -1,22 +1,28 @@
+//Imports
 import express from 'express';
 import {fileURLToPath} from 'url'
 import path, {dirname} from 'path'
 import {router} from './routes/juegoRutas.js'
 
+//Declaracion de variables
 const app = express();
 const PORT = 3000;
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
+//Configuraciones
 app.use(express.static('public'));  
 app.set('view engine', 'pug')
 app.set('views', './views')
 
+//Middlewares para servir rutas del juego
 app.use('/', router)
 
-app.use('/otraruta', router)
+app.use('/juego', router)
 
+app.use('/login', router)
 
+//Ruta para renderizar el error 404
 app.get('/*rtrtrtrt', (req, res) => {
     res.send(
         `<body style="margin: 0"> 
