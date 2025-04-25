@@ -22,6 +22,8 @@ app.use('/juego', router)
 
 app.use('/login', router)
 
+app.use('/registro', router)
+
 //Ruta para renderizar el error 404
 app.get('/*rtrtrtrt', (req, res) => {
     res.send(
@@ -29,7 +31,6 @@ app.get('/*rtrtrtrt', (req, res) => {
             <img src="https://http.cat/404" style="width: 100%; height: 100%"> 
          </body>`)
     });
-
 
 app.listen(PORT, () =>{
     console.log(`Servidor escuchando en el puerto ${PORT}`)

@@ -15,5 +15,9 @@ router.get('/juego', (req, res) => {
 })
 
 router.get('/login', (req, res) =>{
-    res.render('formulario')
+    res.render('loginForm')
+})
+
+router.get('/registro', (req, res) =>{
+    res.render('registroForm')
 })
