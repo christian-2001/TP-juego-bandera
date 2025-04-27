@@ -23,6 +23,8 @@ export const itemBandera = (banderas) => {
     }
 
     //Devuelve la bandera y el array con las opciones
-    return {bandera: select_bandera, respuestas: arr_respuestas}
-
+    return {
+        pregunta: 'El país xx esta representado por la siguiente bandera',
+        bandera: select_bandera, 
+        respuestas: arr_respuestas}
 }

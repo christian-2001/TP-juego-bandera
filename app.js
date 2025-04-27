@@ -11,6 +11,8 @@ const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
 
 //Configuraciones
+app.use(express.json())
+app.use(express.urlencoded())
 app.use(express.static('public'));  
 app.set('view engine', 'pug')
 app.set('views', './views')
@@ -23,6 +25,8 @@ app.use('/juego', router)
 app.use('/login', router)
 
 app.use('/registro', router)
+
+app.use('/api/registro', router)
 
 //Ruta para renderizar el error 404
 app.get('/*rtrtrtrt', (req, res) => {

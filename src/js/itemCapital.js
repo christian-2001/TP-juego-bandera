@@ -22,6 +22,8 @@ export const itemCapital = (capitales) => {
     }
 
     //Devuelve la capital y el array con las opciones
-    return {capital: select_capital, respuestas: arr_respuestas}
-
+    return {
+        pregunta: `¿Cual es el país de la siguiente <span class='text-blue-500'>ciudad capital</span>?`, 
+        capital: select_capital, 
+        respuestas: arr_respuestas}
 }

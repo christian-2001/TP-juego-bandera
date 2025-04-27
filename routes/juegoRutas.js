@@ -1,23 +1,33 @@
 //Imports
 import express from 'express'
-import {barajarPreguntas} from '../src/js/barajarPreguntas.js'
+import {controller} from '../middlewares/controllers.js'
 
 //Funcion Router de Express
 export const router = express.Router()
 
 //Rutas del juego
-router.get('/', (req, res) => {
-    res.render('inicio')
-});
+router.get('/', controller['inicio'])
 
-router.get('/juego', (req, res) => { 
-    barajarPreguntas(req, res)   
-})
+router.get('/juego', controller['juego'])
 
-router.get('/login', (req, res) =>{
-    res.render('loginForm')
-})
+router.get('/login', controller['login'])
 
-router.get('/registro', (req, res) =>{
-    res.render('registroForm')
-})
+router.get('/registro', controller['registro'])
+
+router.post('/api/registro', controller['validar_registro'])
+
+// router.get('/', (req, res) => {
+//     res.render('inicio')
+// });
+
+// router.get('/juego', (req, res) => { 
+//     barajarPreguntas(req, res)   
+// })
+
+// router.get('/login', (req, res) =>{
+//     res.render('loginForm')
+// })
+
+// router.get('/registro', (req, res) =>{
+//     res.render('registroForm')
+// })
