@@ -1,9 +1,12 @@
-let [tiempo_inicio, tiempo_final] = [10, 0] // [Tiempo establecido para el temporizador, tiempo tardado en responder]
+let [tiempo_inicio, tiempo_final, tiempo_total] = [10, 0, 0] // [Tiempo establecido para el temporizador, tiempo tardado en responder, tiempo total de la partida]
 let [puntaje, puntaje_total] = [0, 0] // [puntaje obtenido en la pregunta, puntaje acumulado en la partida]
 let dto_respIncorrecta = 0 // Guarda el total a descontar del puntaje total al responder incorrectamente
 let cantCorrectas = 0 // Refleja la cantidad de respuestas correctas
 let temporizador = 10 // Tiempo restante para responder una pregunta
 let conteo // Variable que guarda en cada pregunta, una funcion que permite descontar segundos del temporizador
+let tiempo_promedio = 0 //El tiempo promedio tardado en responder cada pregunta
+let [minutos, segundos]  = [0, 0] // [Cantidad de minutos, cantidad de segundos]
+let duracion_msj = '' //Imprime en la pantalla de resultados, el tiempo total de la partida
 
 //Cuando se carga la pagina, genera la pantalla con la pregunta, temporizador, sistema de puntaje y las respuestas
 document.addEventListener("DOMContentLoaded", () => {
@@ -11,7 +14,7 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 
 const mostrarPregunta = () => {
-    temporizador = 10
+    temporizador = tiempo_inicio
     let buttons = ''
     let item = ''
 
@@ -146,15 +149,25 @@ const resp_incorrectas = () =>{
 }
 
 const calcularPuntaje = () => {
+
     //Obtiene el total a descontar del puntaje segun el tiempo tardado en contestar la pregunta
-    const tiempo_final = tiempo_inicio - temporizador // 10 - 7 = 3
+    if(temporizador == 10){
+        tiempo_final = 10
+    } else {
+        tiempo_final = tiempo_inicio - temporizador
+    }
     const dto = (tiempo_final * 2000)
+
+    //Sumamos el tiempo tardado en responder en cada pregunta
+    tiempo_promedio += tiempo_final
+    console.log(tiempo_promedio)
 
         //Descuenta el puntaje total segun el tiempo tardado y si respondió correctamente o no
         if(dto_respIncorrecta > 0 && puntaje_total == 0){
             document.querySelector('.puntos').innerHTML = `<h1> Perdiste <span class='text-red-900'> 0 </span> puntos </h1>`
         }else if(dto_respIncorrecta == 0){
-            puntaje = 20000 - dto
+            // puntaje = 20000 - dto
+            puntaje =  dto != 20000 ? 20000 - dto : 20000 
             puntaje_total += puntaje 
             document.querySelector('.puntos').innerHTML = `<h1> Ganaste <span class='text-lime-500'> +${puntaje} </span> puntos </h1>`
         }else if(dto_respIncorrecta > 0){
@@ -174,8 +187,14 @@ const calcularPuntaje = () => {
 
 //Funcion que pasa a la siguiente pregunta
 const avanzar = () => {
+
     //Incrementa a uno la variable que permite pasar a otra pregunta
     index++
+
+    // El tiempo total es la suma del tiempo restante en el temporizador después de cada respuesta
+    console.log(`TEMPORIZADOR: ${temporizador}`)
+    tiempo_total += temporizador != 10 ? tiempo_inicio - temporizador : 0
+    console.log(`TIEMPO TOTAL: ${tiempo_total}`)
 
     //Si la variable no llega a 10, pasa a la otra pregunta, si no, mostramos los resultados de la partida
     if(index < 10){
@@ -183,6 +202,24 @@ const avanzar = () => {
             mostrarPregunta()
         }, 2000);
     } else {
+        //Obteniendo los minutos y segundos
+        minutos = tiempo_total > 60 ? Math.floor((tiempo_total / 60)) : 0
+        segundos = tiempo_total
+        while(segundos > 60){
+            segundos -= 60
+        }
+
+        //Creando el mensaje del tiempo total
+        if(segundos < 60){
+            duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: ${segundos} segundos  </h1>`
+        } else if (segundos == 60){
+            duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: ${minuto} minuto  </h1>`
+        } else {
+            duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: ${minutos} minuto/s y ${segundos} segundo/s  </h1>`
+        }
+
+        //Calcula el tiempo promedio tardado en responder cada pregunta. 
+        tiempo_promedio = Math.round(tiempo_promedio / 10)
         setTimeout(() => {
             mostrar_resultados()
         }, 2000);
@@ -193,9 +230,10 @@ const mostrar_resultados = () => {
     document.body.innerHTML = `
         <div class='w-fit ml-auto mr-auto mt-30 border-4 bg-white p-20'>
             <h1 class='text-center'> Resultados de la partida </h1>
+            ${duracion_msj}
+            <h1 class='text-left mt-10'> Tiempo promedio por pregunta: ${tiempo_promedio} segundos </h1>
+            <h1 class='text-left mt-10'> Respuestas correctas: ${cantCorrectas} de 10 </h1>
             <h1 class='text-left mt-10'> Puntaje final: ${puntaje_total} </h1>
-            <h1 class='text-left mt-10'> Respuestas correctas: ${cantCorrectas}/10 </h1>
         </div>
     `
 }
-
