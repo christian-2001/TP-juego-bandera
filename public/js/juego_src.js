@@ -1,5 +1,11 @@
-let temporizador = 10
-let conteo
+let [tiempo_inicio, tiempo_final] = [10, 0] // [Tiempo establecido para el temporizador, tiempo tardado en responder]
+let [puntaje, puntaje_total] = [0, 0] // [puntaje obtenido en la pregunta, puntaje acumulado en la partida]
+let dto_respIncorrecta = 0 // Guarda el total a descontar del puntaje total al responder incorrectamente
+let cantCorrectas = 0 // Refleja la cantidad de respuestas correctas
+let temporizador = 10 // Tiempo restante para responder una pregunta
+let conteo // Variable que guarda en cada pregunta, una funcion que permite descontar segundos del temporizador
+
+//Cuando se carga la pagina, genera la pantalla con la pregunta, temporizador, sistema de puntaje y las respuestas
 document.addEventListener("DOMContentLoaded", () => {
     mostrarPregunta()
 });
@@ -79,6 +85,9 @@ const resp_correcta = () =>{
 
     // Se detiene el temporizador
     clearInterval(conteo)
+
+    //Aumentamos el contador de respuestas correctas
+    cantCorrectas++
 
     //Obtiene el elemento button, se pinta de color verde y deshabilita sus clases
     const btn_green = document.getElementById('green')
@@ -185,6 +194,7 @@ const mostrar_resultados = () => {
         <div class='w-fit ml-auto mr-auto mt-30 border-4 bg-white p-20'>
             <h1 class='text-center'> Resultados de la partida </h1>
             <h1 class='text-left mt-10'> Puntaje final: ${puntaje_total} </h1>
+            <h1 class='text-left mt-10'> Respuestas correctas: ${cantCorrectas}/10 </h1>
         </div>
     `
 }

@@ -12,8 +12,6 @@ export const barajarPreguntas = async (req, res, items = ['CAPITAL', 'BANDERA', 
     let item_index = 0
     const setPreguntas = [] //Array que guarda las 10 preguntas
     let pregunta_index = 0
-    let [puntaje, puntaje_total, dto_respIncorrecta] = [0, 0, 0]
-    let [tiempo_inicio, tiempo_final] = [10, 0]
 
     //Bloque try-catch que contiene llamados a la api y generacion de preguntas aleatorias
     try{
@@ -40,5 +38,5 @@ export const barajarPreguntas = async (req, res, items = ['CAPITAL', 'BANDERA', 
     console.log(setPreguntas)
 
     //Renderiza la plantilla del juego con los siguientes argumentos
-    res.render('juego', {setPreguntas, pregunta_index, puntaje, puntaje_total, dto_respIncorrecta, tiempo_inicio, tiempo_final})
+    res.render('juego', {setPreguntas, pregunta_index})
 }
