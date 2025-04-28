@@ -5,7 +5,7 @@ import path, {dirname} from 'path'
 import {router} from './routes/juegoRutas.js'
 
 //Declaracion de variables
-const app = express();
+export const app = express();
 const PORT = process.env.PORT || 3000
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
