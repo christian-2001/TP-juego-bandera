@@ -5,17 +5,17 @@ import path, {dirname} from 'path'
 import {router} from './routes/juegoRutas.js'
 
 //Declaracion de variables
-export const app = express();
+const app = express();
 const PORT = process.env.PORT || 3000
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
  
 //Configuraciones
 app.use(express.json())
-app.use(express.urlencoded())
-app.use(express.static('public'));  
+app.use(express.urlencoded({extended: true}))
+app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug')
-app.set('views', './views')
+app.set('views', path.join(__dirname, 'views'))
 
 //Middlewares para servir rutas del juego
 app.use('/', router)
@@ -41,3 +41,5 @@ app.get('/*rtrtrtrt', (req, res) => {
 app.listen(PORT, () =>{
     console.log(`Servidor escuchando en el puerto ${PORT}`)
 });
+
+export default app
