@@ -17,7 +17,7 @@ controller['ranking'] = (req, res) => {
 }
 
 controller['login'] = (req, res) => {
-    res.render('loginform')
+    res.render('loginForm')
 }
 
 controller['registro'] = (req, res) => {

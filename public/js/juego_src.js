@@ -216,7 +216,7 @@ const mostrar_resultados = () => {
         <div class='w-fit ml-auto mr-auto mt-30 border-4 bg-white p-20'>
             <h1 class='text-center'> Resultados de la partida </h1>
             ${duracion_msj}
-            <h1 class='text-left mt-10'> Tiempo promedio por pregunta: ${tiempo_promedio} segundos </h1>
+            <h1 class='text-left mt-10'> Tiempo promedio por pregunta: ${tiempo_promedio} segundo/s </h1>
             <h1 class='text-left mt-10'> Respuestas correctas: ${cantCorrectas} de 10 </h1>
             <h1 class='text-left mt-10'> Puntaje final: ${puntaje_total} </h1>
         </div>
