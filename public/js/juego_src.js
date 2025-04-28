@@ -1,6 +1,6 @@
+let index = 0 //Usado para iterar sobre las preguntas
 let [tiempo_inicio, tiempo_final, tiempo_total] = [10, 0, 0] // [Tiempo establecido para el temporizador, tiempo tardado en responder, tiempo total de la partida]
 let [puntaje, puntaje_total] = [0, 0] // [puntaje obtenido en la pregunta, puntaje acumulado en la partida]
-let dto_respIncorrecta = 0 // Guarda el total a descontar del puntaje total al responder incorrectamente
 let cantCorrectas = 0 // Refleja la cantidad de respuestas correctas
 let temporizador = 10 // Tiempo restante para responder una pregunta
 let conteo // Variable que guarda en cada pregunta, una funcion que permite descontar segundos del temporizador
@@ -32,6 +32,7 @@ const mostrarPregunta = () => {
             }
         })
 
+        puntaje = 3
     } else if(preguntas[index]['bandera']){
         item = `<img src=${preguntas[index]['bandera']} height='300px' class='border-4 border-solid mt-10 w-auto ml-auto mr-auto'>`
     
@@ -42,6 +43,8 @@ const mostrarPregunta = () => {
                 buttons += `<button class='red bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_incorrectas()'>${resp['incorrecta']}</button>`
             }
         })
+
+        puntaje = 5
     } else if(preguntas[index]['pais']){
         item = `<h1 class='text-center mt-10 text-green-600'>${preguntas[index]['pais']}</h1>`
 
@@ -52,6 +55,8 @@ const mostrarPregunta = () => {
                 buttons += `<button class='red bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_incorrectas()'>${resp}</button>`
             }
         })
+
+        puntaje = 3
     }
 
     document.getElementById('temporizador').innerHTML = `<h1> 0:10 </h1>`
@@ -69,7 +74,7 @@ const mostrarPregunta = () => {
         temporizador--
         document.getElementById('temporizador').innerHTML = `0:0${temporizador}`
         if(temporizador == 0) {
-            document.querySelector('.puntos').innerHTML = `<h1> Tiempo fuera!!! no obtienes puntos </h1>`
+            document.querySelector('.puntos').innerHTML = `<h1> Tiempo fuera!!! no ganas puntos </h1>`
             const botones = document.querySelectorAll('button')
             botones.forEach(btn => {
                 btn.disabled = true
@@ -111,8 +116,14 @@ const resp_correcta = () =>{
     //Al contestar correctamente, no se descuentan 10000 puntos
     dto_respIncorrecta = 0
 
-    //Llamada a la funcion que calcula el puntaje al responder la pregunta
-    calcularPuntaje()
+    //Si responde correctamente, gana puntos
+    puntaje_total += puntaje
+ 
+    //Si responde correctamente, se imprime un mensaje indicando que la respuesta es correcta y dice cuantos puntos ganó
+    document.querySelector('.puntos').innerHTML = `<h1> <span class='text-lime-600'> Correcto!! </span>, ganaste ${puntaje} puntos </h1>`
+
+    //Avanza a la siguiente pregunta
+    avanzar()
 }
 
 //Cuando se elije una de las respuestas incorrectas, se ejecuta la siguiente funcion
@@ -141,52 +152,22 @@ const resp_incorrectas = () =>{
     btn_green.classList.remove('hover:bg-gray-400')
     btn_green.disabled = 'true'
 
-    //Se añade a la variable, 10000 puntos que se descontarán del puntaje final al responder incorrectamente
-    dto_respIncorrecta = 10000
+    //Si responde incorrectamente, se imprime un mensaje indicando que la respuesta es incorrecta y que no obtiene puntos
+    document.querySelector('.puntos').innerHTML = `<h1> <span class='text-red-700'> Incorrecto </span>, no ganas puntos </h1>`
 
-    //Llamada a la funcion que calcula el puntaje al responder la pregunta
-    calcularPuntaje()
-}
-
-const calcularPuntaje = () => {
-
-    //Obtiene el total a descontar del puntaje segun el tiempo tardado en contestar la pregunta
-    if(temporizador == 10){
-        tiempo_final = 10
-    } else {
-        tiempo_final = tiempo_inicio - temporizador
-    }
-    const dto = (tiempo_final * 2000)
-
-    //Sumamos el tiempo tardado en responder en cada pregunta
-    tiempo_promedio += tiempo_final
-    console.log(tiempo_promedio)
-
-        //Descuenta el puntaje total segun el tiempo tardado y si respondió correctamente o no
-        if(dto_respIncorrecta > 0 && puntaje_total == 0){
-            document.querySelector('.puntos').innerHTML = `<h1> Perdiste <span class='text-red-900'> 0 </span> puntos </h1>`
-        }else if(dto_respIncorrecta == 0){
-            // puntaje = 20000 - dto
-            puntaje =  dto != 20000 ? 20000 - dto : 20000 
-            puntaje_total += puntaje 
-            document.querySelector('.puntos').innerHTML = `<h1> Ganaste <span class='text-lime-500'> +${puntaje} </span> puntos </h1>`
-        }else if(dto_respIncorrecta > 0){
-            if(puntaje_total != 0) puntaje = 20000 - dto_respIncorrecta
-            puntaje_total -= puntaje 
-            if(puntaje_total < 0) {
-                puntaje_total = 0
-            }
-           document.querySelector('.puntos').innerHTML = `<h1> Perdiste <span class='text-red-900'> -${puntaje} </span> puntos </h1>`
-        }
-
-        console.log(`PUNTAJE TOTAL: ${puntaje_total}`)
-
-        //Avanza a la siguiente pregunta
-        avanzar()
+    //Avanza a la siguiente pregunta
+    avanzar()
 }
 
 //Funcion que pasa a la siguiente pregunta
 const avanzar = () => {
+
+    //Sumamos el tiempo tardado en cada respuesta
+    if(temporizador == 10 || temporizador == 0){
+        tiempo_promedio += 0
+    } else {
+        tiempo_promedio += (tiempo_inicio - temporizador)
+    }
 
     //Incrementa a uno la variable que permite pasar a otra pregunta
     index++
@@ -194,7 +175,7 @@ const avanzar = () => {
     // El tiempo total es la suma del tiempo restante en el temporizador después de cada respuesta
     console.log(`TEMPORIZADOR: ${temporizador}`)
     tiempo_total += temporizador != 10 ? tiempo_inicio - temporizador : 0
-    console.log(`TIEMPO TOTAL: ${tiempo_total}`)
+    console.log(`TIEMPO PROMEDIO: ${tiempo_promedio}`)
 
     //Si la variable no llega a 10, pasa a la otra pregunta, si no, mostramos los resultados de la partida
     if(index < 10){

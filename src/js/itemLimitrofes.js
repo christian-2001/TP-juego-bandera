@@ -43,11 +43,11 @@ export const itemLimitrofes = (limitrofes) => {
     //Si el nuevo array le falta uno o varios elementos, se lo llenamos controlando que no haya repeticion
     while(arraySinRepe.length < 3){
         console.log('AL ARRAY LE FALTA UN ELEMENTO')
-        borders_elem = Math.floor(Math.random() * (limitrofes.length + 1))
+        borders_elem = Math.floor(Math.random() * (limitrofes.length))
         resp = limitrofes[borders_elem].borders.length
         if(resp == borders_cant){
             while(resp == borders_cant){
-                borders_elem = Math.floor(Math.random() * (limitrofes.length + 1))
+                borders_elem = Math.floor(Math.random() * (limitrofes.length))
                 resp = limitrofes[borders_elem].borders.length
             }
             if(!arraySinRepe.includes(resp)) arraySinRepe.push(resp)

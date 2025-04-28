@@ -10,14 +10,14 @@ export const itemCapital = (capitales) => {
 
     //Almacena en una variable, la capital aleatoria elegida
     while(select_capital == '' || select_capital == undefined){
-        index = Math.floor(Math.random() * (capitales.length+1))
+        index = Math.floor(Math.random() * (capitales.length))
         select_capital = capitales[index].capital[0]
         país_capital = capitales[index].translations.spa.common
     }
 
     //Llena el array con la respuesta correcta y las demas incorrectas
     for(let e = 0; e < 4; e++){  
-        pais_elem = Math.floor(Math.random() * (capitales.length + 1))
+        pais_elem = Math.floor(Math.random() * (capitales.length))
         arr_respuestas.push( e == arr_index ? {correcta: país_capital} : {incorrecta: capitales[pais_elem].translations.spa.common} )
     }
 
