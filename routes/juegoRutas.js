@@ -10,6 +10,8 @@ router.get('/', controller['inicio'])
 
 router.get('/juego', controller['juego'])
 
+router.get('/ranking', controller['ranking'])
+
 router.get('/login', controller['login'])
 
 router.get('/registro', controller['registro'])

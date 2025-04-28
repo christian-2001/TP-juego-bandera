@@ -5,11 +5,15 @@ import {barajarPreguntas} from '../src/js/barajarPreguntas.js'
 
 //Funciones comunes
 controller['inicio'] = (req, res) => {
-    res.render('inicio')
+    res.render('index')
 }
 
 controller['juego'] = (req, res) => { 
     barajarPreguntas(req, res) 
+}
+
+controller['ranking'] = (req, res) => {
+    res.render('ranking')
 }
 
 controller['login'] = (req, res) => {

@@ -6,10 +6,10 @@ import {router} from './routes/juegoRutas.js'
 
 //Declaracion de variables
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
-
+ 
 //Configuraciones
 app.use(express.json())
 app.use(express.urlencoded())
@@ -21,6 +21,8 @@ app.set('views', './views')
 app.use('/', router)
 
 app.use('/juego', router)
+
+app.use('/ranking', router)
 
 app.use('/login', router)
 

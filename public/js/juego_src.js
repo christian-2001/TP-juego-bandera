@@ -34,7 +34,7 @@ const mostrarPregunta = () => {
 
         puntaje = 3
     } else if(preguntas[index]['bandera']){
-        item = `<img src=${preguntas[index]['bandera']} height='300px' class='border-4 border-solid mt-10 w-auto ml-auto mr-auto'>`
+        item = `<img src=${preguntas[index]['bandera']} loading='lazy' width='320' height='240' class='border-4 border-solid mt-10 w-auto ml-auto mr-auto'>`
     
         preguntas[index]['respuestas'].forEach(resp => {
             if(resp['correcta']){
@@ -219,6 +219,18 @@ const mostrar_resultados = () => {
             <h1 class='text-left mt-10'> Tiempo promedio por pregunta: ${tiempo_promedio} segundos </h1>
             <h1 class='text-left mt-10'> Respuestas correctas: ${cantCorrectas} de 10 </h1>
             <h1 class='text-left mt-10'> Puntaje final: ${puntaje_total} </h1>
+        </div>
+
+        <div class='buttons w-fit ml-auto mr-auto mt-10'>
+            <a href='/juego'>
+                <button class='bg-white border-4 text-4xl p-7 font-mono hover:bg-lime-200 rounded-4xl'> Volver a Jugar </button>
+            </a>
+            <a href='/'>
+                <button class='bg-white border-4 ml-5 text-4xl p-7 font-mono hover:bg-blue-300 rounded-4xl'> Volver a Inicio </button>
+            </a>
+            <a href='/ranking'>
+                <button class='bg-white border-4 ml-5 text-4xl p-7 font-mono hover:bg-pink-300 rounded-4xl'> Ver ranking </button>
+            </a>
         </div>
     `
 }
