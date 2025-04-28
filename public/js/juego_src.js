@@ -26,9 +26,9 @@ const mostrarPregunta = () => {
 
         preguntas[index]['respuestas'].forEach(resp => {
             if(resp['correcta']){
-                buttons += `<button id='green' class='bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()'>${resp['correcta']}</button>`
+                buttons += `<button id='green' class='bg-white p-4 border-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()'>${resp['correcta']}</button>`
             } else if(resp['incorrecta']){
-                buttons += `<button class='red bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_incorrectas()'>${resp['incorrecta']}</button>`
+                buttons += `<button class='red bg-white p-4 border-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_incorrectas()'>${resp['incorrecta']}</button>`
             }
         })
 
@@ -38,9 +38,9 @@ const mostrarPregunta = () => {
     
         preguntas[index]['respuestas'].forEach(resp => {
             if(resp['correcta']){
-                buttons += `<button id='green' class='bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()'>${resp['correcta']}</button>`
+                buttons += `<button id='green' class='bg-white p-4 border-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()'>${resp['correcta']}</button>`
             } else if(resp['incorrecta']){
-                buttons += `<button class='red bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_incorrectas()'>${resp['incorrecta']}</button>`
+                buttons += `<button class='red bg-white p-4 border-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_incorrectas()'>${resp['incorrecta']}</button>`
             }
         })
 
@@ -50,16 +50,16 @@ const mostrarPregunta = () => {
 
         preguntas[index]['respuestas'].forEach(resp => {
             if(resp['correcta'] !== undefined){
-                buttons += `<button id='green' class='bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()'>${resp['correcta']}</button>`
+                buttons += `<button id='green' class='bg-white p-4 border-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()'>${resp['correcta']}</button>`
             } else {
-                buttons += `<button class='red bg-white p-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_incorrectas()'>${resp}</button>`
+                buttons += `<button class='red bg-white p-4 border-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_incorrectas()'>${resp}</button>`
             }
         })
 
         puntaje = 3
     }
 
-    document.getElementById('temporizador').innerHTML = `<h1> 0:10 </h1>`
+    document.getElementById('temporizador').innerHTML = `<h1> Tiempo: 0:10 </h1>`
 
     document.querySelector('.pregunta').innerHTML = ` ${h1_pregunta} ${item} `
 
@@ -72,9 +72,9 @@ const mostrarPregunta = () => {
 
     conteo = setInterval(() => {
         temporizador--
-        document.getElementById('temporizador').innerHTML = `0:0${temporizador}`
+        document.getElementById('temporizador').innerHTML = `Tiempo: 0:0${temporizador}`
         if(temporizador == 0) {
-            document.querySelector('.puntos').innerHTML = `<h1> Tiempo fuera!!! no ganas puntos </h1>`
+            document.querySelector('.puntos').innerHTML = `<h1 class='bg-white p-5 w-fit ml-auto mr-auto border-4'> Tiempo fuera!!! no ganas puntos </h1>`
             const botones = document.querySelectorAll('button')
             botones.forEach(btn => {
                 btn.disabled = true
@@ -87,6 +87,7 @@ const mostrarPregunta = () => {
         }
     }, 1000)
 }
+
 
 //Cuando se elije la respuesta correcta, se ejecuta la siguiente funcion
 const resp_correcta = () =>{
@@ -120,11 +121,12 @@ const resp_correcta = () =>{
     puntaje_total += puntaje
  
     //Si responde correctamente, se imprime un mensaje indicando que la respuesta es correcta y dice cuantos puntos ganó
-    document.querySelector('.puntos').innerHTML = `<h1> <span class='text-lime-600'> Correcto!! </span>, ganaste ${puntaje} puntos </h1>`
+    document.querySelector('.puntos').innerHTML = `<h1 class='bg-white p-5 w-fit ml-auto mr-auto border-4'> <span class='text-lime-600'> Correcto!!</span>, ganaste ${puntaje} puntos </h1>`
 
     //Avanza a la siguiente pregunta
     avanzar()
 }
+
 
 //Cuando se elije una de las respuestas incorrectas, se ejecuta la siguiente funcion
 const resp_incorrectas = () =>{
@@ -153,11 +155,12 @@ const resp_incorrectas = () =>{
     btn_green.disabled = 'true'
 
     //Si responde incorrectamente, se imprime un mensaje indicando que la respuesta es incorrecta y que no obtiene puntos
-    document.querySelector('.puntos').innerHTML = `<h1> <span class='text-red-700'> Incorrecto </span>, no ganas puntos </h1>`
+    document.querySelector('.puntos').innerHTML = `<h1 class='bg-white p-5 w-fit ml-auto mr-auto border-4'> <span class='text-red-700'> Incorrecto</span>, no ganas puntos </h1>`
 
     //Avanza a la siguiente pregunta
     avanzar()
 }
+
 
 //Funcion que pasa a la siguiente pregunta
 const avanzar = () => {
@@ -175,6 +178,7 @@ const avanzar = () => {
     // El tiempo total es la suma del tiempo restante en el temporizador después de cada respuesta
     console.log(`TEMPORIZADOR: ${temporizador}`)
     tiempo_total += temporizador != 10 ? tiempo_inicio - temporizador : 0
+    console.log(`TIEMPO TOTAL: ${tiempo_total}`)
     console.log(`TIEMPO PROMEDIO: ${tiempo_promedio}`)
 
     //Si la variable no llega a 10, pasa a la otra pregunta, si no, mostramos los resultados de la partida
@@ -191,12 +195,12 @@ const avanzar = () => {
         }
 
         //Creando el mensaje del tiempo total
-        if(segundos < 60){
+        if(tiempo_total < 60){
             duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: ${segundos} segundos  </h1>`
-        } else if (segundos == 60){
-            duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: ${minuto} minuto  </h1>`
+        } else if (tiempo_total == 60){
+            duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: 1 minuto  </h1>`
         } else {
-            duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: ${minutos} minuto/s y ${segundos} segundo/s  </h1>`
+            duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: ${minutos} minuto y ${segundos} segundo/s  </h1>`
         }
 
         //Calcula el tiempo promedio tardado en responder cada pregunta. 

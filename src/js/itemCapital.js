@@ -2,26 +2,59 @@ export const itemCapital = (capitales) => {
     //Declaracion de variables
     let select_capital = ''
     let país_capital = ''
-    let [index, pais_elem, arr_index] = [0, 0, Math.floor(Math.random() * 4)]
+    let [index, pais_elem, arr_index, arr_index2] = [0, 0, Math.floor(Math.random() * 4), 0]
+    let resp = ''
 
     //Array que guarda las respuestas/opciones
     const arr_respuestas = []
 
+    //Array que guarda respuestas incorrectas
+    const resp_incorrectas = []
 
-    //Almacena en una variable, la capital aleatoria elegida
+    //Almacena en una variable, la capital aleatoria elegida y su pais siendo la respuesta correcta
     while(select_capital == '' || select_capital == undefined){
         index = Math.floor(Math.random() * (capitales.length))
         select_capital = capitales[index].capital[0]
         país_capital = capitales[index].translations.spa.common
     }
 
-    //Llena el array con la respuesta correcta y las demas incorrectas
-    for(let e = 0; e < 4; e++){  
+    //Llenamos un array con 3 respuestas incorrectas
+    for(let i = 0; i < 3; i++){
         pais_elem = Math.floor(Math.random() * (capitales.length))
-        arr_respuestas.push( e == arr_index ? {correcta: país_capital} : {incorrecta: capitales[pais_elem].translations.spa.common} )
+        resp = capitales[pais_elem].translations.spa.common
+        resp_incorrectas.push(resp)
     }
 
-    //Devuelve la capital y el array con las opciones
+    // console.log(`ANTES: ${resp_incorrectas}`)
+
+    //Creamos un nuevo array sin los paises repetidos en el array anterior en caso de tenerlos
+    const arraySinRepe = [...new Set(resp_incorrectas)]
+    
+    // console.log(`DESPUES: ${arraySinRepe}`)
+
+    //En caso que falten elementos, se llena el nuevo array sin repeticiones
+    while(arraySinRepe.length < 3){
+        // console.log('AL ARRAY LE FALTA UN ELEMENTO')
+        pais_elem = Math.floor(Math.random() * (capitales.length))
+        resp = capitales[pais_elem].translations.spa.common
+        // console.log(`ELEMENTO: ${resp}`)
+        if(!arraySinRepe.includes(resp)) arraySinRepe.push(resp)
+    }
+
+
+    //Llena otro array con la respuesta correcta y las demas incorrectas
+    for(let elem = 0; elem < 4; elem++){
+       if(elem == arr_index){
+            arr_respuestas.push({correcta: país_capital})
+       } else {
+            arr_respuestas.push({incorrecta: arraySinRepe[arr_index2]})
+            arr_index2++
+        }
+    }
+
+    // console.log(`ARRAY COMPLETO: ${arr_respuestas}` )
+
+    //Devuelve la capital y el array con las respuestas
     return {
         pregunta: `¿Cual es el país de la siguiente <span class='text-blue-500'>ciudad capital</span>?`, 
         capital: select_capital, 

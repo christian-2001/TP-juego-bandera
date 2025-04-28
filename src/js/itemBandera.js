@@ -2,25 +2,57 @@ export const itemBandera = (banderas) => {
     //Declaracion de variables
     let select_bandera = ''
     let país_bandera = ''
-    let bandera_elem = 0
-    let index = 0
-    let arr_index = Math.floor(Math.random() * 4)
-    
+    let [pais_elem, index, arr_index, arr_index2] = [0, 0, Math.floor(Math.random() * 4), 0]
+    let resp = ''
+
     //Array que guarda las respuestas/opciones
     const arr_respuestas = []
 
-    //Almacena en una variable, la bandera aleatoria elegida
+    //Array que guarda respuestas incorrectas
+    const resp_incorrectas = []
+
+    //Almacena en una variable, la bandera aleatoria elegida y su pais siendo la respuesta correcta
     while(select_bandera == '' || select_bandera == undefined){
         index = Math.floor(Math.random() * (banderas.length))
         select_bandera = banderas[index].flags.png
         país_bandera = banderas[index].translations.spa.common
     }
 
-    //Llena el array con la respuesta correcta y las demas incorrectas
-    for(let e = 0; e < 4; e++){
-        bandera_elem = Math.floor(Math.random() * (banderas.length))
-        arr_respuestas.push( e == arr_index ? {correcta: país_bandera} : {incorrecta: banderas[bandera_elem].translations.spa.common})
+    //Llenamos un array con 3 respuestas incorrectas
+    for(let i = 0; i < 3; i++){
+        pais_elem = Math.floor(Math.random() * (banderas.length))
+        resp = banderas[pais_elem].translations.spa.common
+        resp_incorrectas.push(resp)
     }
+
+    console.log(`ANTES: ${resp_incorrectas.length}`)
+
+    //Creamos un nuevo array sin los paises repetidos en el array anterior en caso de tenerlos
+    const arraySinRepe = [...new Set(resp_incorrectas)]
+
+    console.log(`DESPUES: ${arraySinRepe.length}`)
+
+    //En caso que falten elementos, se llena el nuevo array sin repeticiones
+    while(arraySinRepe.length < 3){
+        console.log('AL ARRAY LE FALTA UN ELEMENTO')
+        pais_elem = Math.floor(Math.random() * (banderas.length))
+        resp = banderas[pais_elem].translations.spa.common
+        console.log(`ELEMENTO: ${resp}`)
+        if(!arraySinRepe.includes(resp)) arraySinRepe.push(resp)
+    }
+
+
+    //Llena otro array con la respuesta correcta y las demas incorrectas
+    for(let elem = 0; elem < 4; elem++){
+        if(elem == arr_index){
+            arr_respuestas.push({correcta: país_bandera})
+        } else {
+            arr_respuestas.push({incorrecta: arraySinRepe[arr_index2]})
+            arr_index2++
+        }
+    }
+
+    console.log(`ARRAY COMPLETO: ${arr_respuestas.length}` )
 
     //Devuelve la bandera y el array con las opciones
     return {
