@@ -22,7 +22,7 @@ app.use('/', router)
 
 app.use('/juego', router)
 
-// app.use('/api/juego', router)
+app.use('/juego', router)
 
 app.use('/ranking', router)
 

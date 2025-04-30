@@ -188,9 +188,9 @@ const avanzar = () => {
         }, 2000);
     } else {
         //Obteniendo los minutos y segundos
-        minutos = tiempo_total > 60 ? Math.floor((tiempo_total / 60)) : 0
+        minutos = tiempo_total >= 60 ? Math.floor((tiempo_total / 60)) : 0
         segundos = tiempo_total
-        while(segundos > 60){
+        while(segundos >= 60){
             segundos -= 60
         }
 
@@ -211,7 +211,14 @@ const avanzar = () => {
     }
 }
 
-const mostrar_resultados = () => {
+const mostrar_resultados =  () => {
+    //Conversion del tiempo total con la siguiente estructura -> "0:00"
+    let tiempo_formato
+    if(tiempo_total < 10) tiempo_formato = `0:0${segundos}`
+    if(tiempo_total >= 10 && tiempo_total < 60) tiempo_formato = `0:${segundos}`
+    if(tiempo_total === 60) tiempo_formato = `${minutos}:00`
+    if(tiempo_total > 60) tiempo_formato = `${minutos}:${segundos}`
+
     document.body.innerHTML = `
         <div class='w-fit ml-auto mr-auto mt-30 border-4 bg-white p-20'>
             <h1 class='text-center'> Resultados de la partida </h1>
@@ -223,14 +230,22 @@ const mostrar_resultados = () => {
 
         <div class='buttons w-fit ml-auto mr-auto mt-10'>
             <a href='/juego'>
-                <button class='bg-white border-4 text-4xl p-7 font-mono hover:bg-lime-200 rounded-4xl'> Volver a Jugar </button>
+                <button class='bg-white border-4 text-4xl p-2.5 font-mono hover:bg-lime-200 rounded-4xl'> Volver a Jugar </button>
             </a>
             <a href='/'>
-                <button class='bg-white border-4 ml-5 text-4xl p-7 font-mono hover:bg-blue-300 rounded-4xl'> Volver a Inicio </button>
+                <button class='bg-white border-4 ml-5 text-4xl p-2.5 font-mono hover:bg-blue-300 rounded-4xl'> Volver a Inicio </button>
             </a>
             <a href='/ranking'>
-                <button class='bg-white border-4 ml-5 text-4xl p-7 font-mono hover:bg-pink-300 rounded-4xl'> Ver ranking </button>
+                <button class='bg-white border-4 ml-5 text-4xl p-2.5 font-mono hover:bg-pink-300 rounded-4xl'> Ver ranking </button>
             </a>
         </div>
     `
+    const result_final = {nick: 'Usuariooo2', ptaje: puntaje_total, tiempo_record: tiempo_formato}
+    console.log(tiempo_formato)
+
+    fetch('/juego', {
+        method: 'POST',
+        headers: {'Content-Type' : 'application/json'},
+        body: JSON.stringify(result_final)
+    })
 }
