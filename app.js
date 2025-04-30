@@ -22,13 +22,15 @@ app.use('/', router)
 
 app.use('/juego', router)
 
+// app.use('/api/juego', router)
+
 app.use('/ranking', router)
 
 app.use('/login', router)
 
 app.use('/registro', router)
 
-app.use('/api/registro', router)
+// app.use('/welcome', router)
 
 //Ruta para renderizar el error 404
 app.get('/*rtrtrtrt', (req, res) => {
