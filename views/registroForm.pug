@@ -7,24 +7,45 @@ html(lang="en")
         title Crear Cuenta
     body(class='bg-gradient-to-r from-cyan-800 to-blue-950 text-black') 
 
-        form#registroForm(action="", method="post" class='bg-white p-7 rounded-4xl w-fit ml-auto mr-auto mt-40' autocomplete='on')
+        a(href='/login')
+             button(class='bg-white block w-fit ml-auto mr-auto mt-10 text-4xl p-2.5 border-4 hover:bg-blue-300 rounded-4xl') Volver 
 
-            label(class='text-4xl font-medium block' for='nick') Ingrese su nuevo nick/nombre de usuario
-            input#nick(type='text' placeholder='Nick/nombre usuario' class='mt-4 p-4 w-170 text-2xl rounded-2xl bg-gray-200' name='nick') 
-            .listado1(class='mt-5')
+        form#registroForm(action="/welcome", method="POST" class='bg-white p-7 rounded-4xl w-fit ml-auto mr-auto mt-5 mb-10')
 
-            label(class='text-4xl font-medium block mt-9') Ingrese su correo electronico    
-            input#mail(type='mail' placeholder='Correo Electronico' class='mt-4 p-4 w-170 text-2xl rounded-2xl bg-gray-200' name='mail')
-            .listado2(class='mt-5')
+             label(class='text-4xl font-medium block' for='nick') Ingrese su nuevo nick/nombre de usuario
+             input#nick(type='text' placeholder='Nick/nombre usuario' class='mt-4 p-4 w-208 text-2xl rounded-2xl bg-gray-200' name='nick') 
+             .listado1(class='mt-5 font-bold text-[19px] font-[Arial,_Helvetica,_sans-serif]')
+                 p El nick debe tener almenos: Mayuscula, minuscula y un numero'
+                 p No se permiten: ".", espacios y caracteres especiales("<", ":", etc)
+                 p Entre 8 y 20 caracteres
 
-            label(class='text-4xl font-medium block mt-9' for='password') Ingrese una nueva contraseña para su cuenta
-            input#password(type='text' placeholder='Contraseña' class='mt-4 p-4 w-170 text-2xl rounded-2xl bg-gray-200' name='password')
-            .listado3(class='mt-5 font-bold  text-red-500 font-[Arial,_Helvetica,_sans-serif] ')
+             input#password(type='password' placeholder='Contraseña' class='mt-4 p-4 w-208 text-2xl rounded-2xl bg-gray-200' name='password')
+             .listado3(class='mt-5 font-bold text-[19px] font-[Arial,_Helvetica,_sans-serif]')
+                 p La contraseña debe tener almenos: Mayuscula, minuscula, numero y un caracter especial
+                 p Entre 8 y 16 caracteres
+              
+             label(class='text-4xl font-medium block mt-9' for='confirm') Confirmar contraseña
+             input#confirm(type='password' placeholder='Contraseña' class='mt-4 p-4 w-208 text-2xl rounded-2xl bg-gray-200' name='confirm')
+             
+             button(type='submit' class='block w-fit ml-auto mr-auto mt-4 p-6 bg-lime-600 hover:bg-green-500 border-double border-8 rounded-4xl text-white text-2xl font-bold' ) Registrarse
+        //- form#registroForm(action="", method="post" class='bg-white p-7 rounded-4xl w-fit ml-auto mr-auto mt-40' autocomplete='on')
 
-            label(class='text-4xl font-medium block mt-9' for='confirm') Confirmar contraseña
-            input#confirm(type='confirm' placeholder='Contraseña' class='mt-4 p-4 w-170 text-2xl rounded-2xl bg-gray-200' name='confirm')
-            .msj(class='mt-5 font-bold font-[Arial,_Helvetica,_sans-serif] text-red-500 ')
+        //-     label(class='text-4xl font-medium block' for='nick') Ingrese su nuevo nick/nombre de usuario
+        //-     input#nick(type='text' placeholder='Nick/nombre usuario' class='mt-4 p-4 w-170 text-2xl rounded-2xl bg-gray-200' name='nick') 
+        //-     .listado1(class='mt-5')
 
-            button(type='submit' class='block w-fit ml-auto mr-auto mt-8 p-6 bg-lime-600 hover:bg-green-500 border-double border-8 rounded-4xl text-white text-2xl font-bold' ) Registrarse
+        //-     label(class='text-4xl font-medium block mt-9') Ingrese su correo electronico    
+        //-     input#mail(type='mail' placeholder='Correo Electronico' class='mt-4 p-4 w-170 text-2xl rounded-2xl bg-gray-200' name='mail')
+        //-     .listado2(class='mt-5')
+
+        //-     label(class='text-4xl font-medium block mt-9' for='password') Ingrese una nueva contraseña para su cuenta
+        //-     input#password(type='text' placeholder='Contraseña' class='mt-4 p-4 w-170 text-2xl rounded-2xl bg-gray-200' name='password')
+        //-     .listado3(class='mt-5 font-bold  text-red-500 font-[Arial,_Helvetica,_sans-serif] ')
+
+        //-     label(class='text-4xl font-medium block mt-9' for='confirm') Confirmar contraseña
+        //-     input#confirm(type='confirm' placeholder='Contraseña' class='mt-4 p-4 w-170 text-2xl rounded-2xl bg-gray-200' name='confirm')
+        //-     .msj(class='mt-5 font-bold font-[Arial,_Helvetica,_sans-serif] text-red-500 ')
+
+        //-     button(type='submit' class='block w-fit ml-auto mr-auto mt-8 p-6 bg-lime-600 hover:bg-green-500 border-double border-8 rounded-4xl text-white text-2xl font-bold' ) Registrarse
 
     script(src='/js/registro.js' defer) 
