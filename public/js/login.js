@@ -34,7 +34,7 @@ document.getElementById('loginForm').addEventListener('submit', async(e) => {
     const nick = e.target.children.nick.value
     const password = e.target.children.password.value
 
-    const res = await fetch('https://tp-juego-bandera.vercel.app/api/login', {
+    const res = await fetch('/api/login', {
         method:'POST',
         headers:{
             'Content-Type' : 'application/json'

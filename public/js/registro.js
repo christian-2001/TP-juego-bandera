@@ -23,7 +23,7 @@ document.querySelectorAll('#registroForm input').forEach(input => {
 document.getElementById('registroForm').addEventListener('submit', async (e) => {
   e.preventDefault()
 
-  const res = await fetch('https://tp-juego-bandera.vercel.app/api/registro', {
+  const res = await fetch('/api/registro', {
     method:'POST',
     headers:{
       'Content-Type' : 'application/json'
