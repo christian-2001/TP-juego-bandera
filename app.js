@@ -3,12 +3,12 @@ import express from 'express';
 import {fileURLToPath} from 'url'
 import path, {dirname} from 'path'
 import {router} from './routes/juegoRutas.js'
-import cookieParser from 'cookie-parser';
- import {revisarCookie} from './middlewares/user_authentication.js'
 
 //Declaracion de variables
 const app = express();
 const PORT = process.env.PORT || 3000
+
+//Varibales para usar rutas absolutas
 const __filename = fileURLToPath(import.meta.url)
 const __dirname = dirname(__filename)
  
@@ -18,27 +18,13 @@ app.use(express.urlencoded({extended: true}))
 app.use(express.static(path.join(__dirname, 'public')));
 app.set('view engine', 'pug')
 app.set('views', path.join(__dirname, 'views'))
-app.use(cookieParser())
 
 //Middlewares para servir rutas del juego
-app.use('/', revisarCookie, router)
-
-app.use('/juego', router)
+app.use('/', router)
 
 app.use('/juego', router)
 
 app.use('/ranking', router)
-
-app.use('/login', router)
-
-app.use('/api/login', router)
-
-app.use('/registro', router)
-
-app.use('/api/registro', router)
- 
- app.use('/welcome', router)
-
 
 //Ruta para renderizar el error 404
 app.get('/*rtrtrtrt', (req, res) => {
@@ -48,6 +34,7 @@ app.get('/*rtrtrtrt', (req, res) => {
          </body>`)
     });
 
+//Indicamos que el servidor escucha peticiones en el puerto establecido
 app.listen(PORT, () =>{
     console.log(`Servidor escuchando en el puerto ${PORT}`)
 });

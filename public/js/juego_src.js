@@ -8,7 +8,7 @@ let tiempo_promedio = 0 //El tiempo promedio tardado en responder cada pregunta
 let [minutos, segundos]  = [0, 0] // [Cantidad de minutos, cantidad de segundos]
 let duracion_msj = '' //Imprime en la pantalla de resultados, el tiempo total de la partida
 
-//Cuando se carga la pagina, genera la pantalla con la pregunta, temporizador, sistema de puntaje y las respuestas
+//Cuando carga la pagina, genera el juego completo
 document.addEventListener("DOMContentLoaded", () => {
     mostrarPregunta()
 });
@@ -20,6 +20,7 @@ const mostrarPregunta = () => {
 
     const h1_pregunta = `<h1>${preguntas[index]['pregunta']}</h1>`
     
+    //Si la pregunta elegida se trata de la capital de un pais, mostramos la pregunta y respuestas
     if(preguntas[index]['capital']){
     
         item = `<h1 class='text-center mt-10 text-blue-500 '>${preguntas[index]['capital']}</h1>`
@@ -32,7 +33,10 @@ const mostrarPregunta = () => {
             }
         })
 
+        //Puntaje establecido para la pregunta de capital
         puntaje = 3
+    
+        //Si la pregunta elegida se trata de la bandera de un pais, mostramos la pregunta y respuestas
     } else if(preguntas[index]['bandera']){
         item = `<img src=${preguntas[index]['bandera']} loading='lazy' width='320' height='240' class='border-4 border-solid mt-10 w-auto ml-auto mr-auto'>`
     
@@ -44,7 +48,10 @@ const mostrarPregunta = () => {
             }
         })
 
+        //Puntaje establecido para la pregunta de bandera
         puntaje = 5
+
+    //Si la pregunta elegida se trata de un pais que limita con otros, mostramos la pregunta y respuestas
     } else if(preguntas[index]['pais']){
         item = `<h1 class='text-center mt-10 text-green-600'>${preguntas[index]['pais']}</h1>`
 
@@ -56,25 +63,33 @@ const mostrarPregunta = () => {
             }
         })
 
+        //Puntaje establecido para la pregunta de paises limitrofes
         puntaje = 3
     }
 
+    //Cargamos el temporizador con 10 segundos por pregunta
     document.getElementById('temporizador').innerHTML = `<h1> Tiempo: 0:10 </h1>`
 
+    //Cargamos la pregunta
     document.querySelector('.pregunta').innerHTML = ` ${h1_pregunta} ${item} `
 
+    //Cargamos un contador de preguntas
     document.getElementById('pregunta_contador').innerHTML = `Preguntas ${index + 1}/10`
     
+    //Cargamos las respuestas como botones, que el usuario puede hacer click, en una de ellas, para responder la pregunta
     document.querySelector('.btn_opciones').innerHTML = `${buttons}`
 
+    //Cargamos un mensaje que dice si el usuario respondio bien o mal la pregunta, o no ha respondido nada en 10 segundos
     document.querySelector('.puntos').innerHTML = ''
 
-
+    //Funcion que permite funcionar el temporizador, el setInterval se ejecuta cada 1000 milisegundos pasados
     conteo = setInterval(() => {
         temporizador--
         document.getElementById('temporizador').innerHTML = `Tiempo: 0:0${temporizador}`
         if(temporizador == 0) {
+            //Si el usuario no ha respondidos en los 10 segundos restantes, muestra un mensaje indicando que, se acabó el tiempo y que no ha ganado puntos
             document.querySelector('.puntos').innerHTML = `<h1 class='bg-white p-5 w-fit ml-auto mr-auto border-4'> Tiempo fuera!!! no ganas puntos </h1>`
+            //Luego de 10 segundos, el usuario no puede hacer click en ninguna respuesta
             const botones = document.querySelectorAll('button')
             botones.forEach(btn => {
                 btn.disabled = true
@@ -82,7 +97,11 @@ const mostrarPregunta = () => {
                 btn.classList.remove('hover:bg-gray-400')
             })
             document.querySelectorAll('button').forEach(btn => btn.disabled = true)
+
+            // Se detiene el temporizador
             clearInterval(conteo)
+
+            //Avanza a la siguiente pregunta
             avanzar()
         }
     }, 1000)
@@ -154,7 +173,7 @@ const resp_incorrectas = () =>{
     btn_green.classList.remove('hover:bg-gray-400')
     btn_green.disabled = 'true'
 
-    //Si responde incorrectamente, se imprime un mensaje indicando que la respuesta es incorrecta y que no obtiene puntos
+    //Si responde incorrectamente, se imprime un mensaje indicando que, la respuesta es incorrecta y no gana puntos
     document.querySelector('.puntos').innerHTML = `<h1 class='bg-white p-5 w-fit ml-auto mr-auto border-4'> <span class='text-red-700'> Incorrecto</span>, no ganas puntos </h1>`
 
     //Avanza a la siguiente pregunta
@@ -176,10 +195,7 @@ const avanzar = () => {
     index++
 
     // El tiempo total es la suma del tiempo restante en el temporizador después de cada respuesta
-    console.log(`TEMPORIZADOR: ${temporizador}`)
     tiempo_total += temporizador != 10 ? tiempo_inicio - temporizador : 0
-    console.log(`TIEMPO TOTAL: ${tiempo_total}`)
-    console.log(`TIEMPO PROMEDIO: ${tiempo_promedio}`)
 
     //Si la variable no llega a 10, pasa a la otra pregunta, si no, mostramos los resultados de la partida
     if(index < 10){
@@ -194,7 +210,7 @@ const avanzar = () => {
             segundos -= 60
         }
 
-        //Creando el mensaje del tiempo total
+        //Creando el mensaje del tiempo total que se verá en la pantalla de resultados
         if(tiempo_total < 60){
             duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: ${segundos} segundos  </h1>`
         } else if (tiempo_total == 60){
@@ -211,6 +227,7 @@ const avanzar = () => {
     }
 }
 
+//Funcion que carga una pantalla de resultados mostrando la informacion requerida
 const mostrar_resultados =  () => {
     //Conversion del tiempo total con la siguiente estructura -> "0:00"
     let tiempo_formato
@@ -219,6 +236,7 @@ const mostrar_resultados =  () => {
     if(tiempo_total === 60) tiempo_formato = `${minutos}:00`
     if(tiempo_total > 60) tiempo_formato = `${minutos}:${segundos}`
 
+    //Imprimiendo pantalla con la informacion
     document.body.innerHTML = `
         <div class='w-fit ml-auto mr-auto mt-30 border-4 bg-white p-20'>
             <h1 class='text-center'> Resultados de la partida </h1>
@@ -240,12 +258,9 @@ const mostrar_resultados =  () => {
             </a>
         </div>
     `
-    const result_final = {nick: 'Usuariooo2', ptaje: puntaje_total, tiempo_record: tiempo_formato}
-    console.log(tiempo_formato)
 
-    fetch('/juego', {
-        method: 'POST',
-        headers: {'Content-Type' : 'application/json'},
-        body: JSON.stringify(result_final)
-    })
+    //Condiciones para entrar al ranking
+    if(puntaje_total >= 20 && cantCorrectas >= 5 && tiempo_total <= 60){
+        const result_final = {nick: 'Usuariooo2', ptaje: puntaje_total, resp: cantCorrectas, tiempo_record: tiempo_formato}
+    }
 }
