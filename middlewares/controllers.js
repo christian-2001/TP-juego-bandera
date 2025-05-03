@@ -20,6 +20,20 @@ controller['juego'] = (req, res) => {
     barajarPreguntas(req, res) 
 }
 
+controller['resultados'] = (req, res) => { 
+
+    const partida = req.body
+    console.log(partida)
+    const filePath = path.join(__dirname, '../json/ranking_info.json')
+    const data = fs.readFileSync(filePath, {encoding: 'utf-8'})
+    const ranking_data = JSON.parse(data)
+    ranking_data.push(partida)
+    console.log('Partida del usuario guardada!!!')
+    fs.writeFileSync(filePath, JSON.stringify(ranking_data, null, 3), {encoding : 'utf-8'})
+    res.status(200).send({message: 'Partida del usuario guardada!!!'})
+    
+}
+
 controller['ranking'] = (req, res) => {
 
     const filePath = path.join(__dirname, '../json/ranking_info.json')

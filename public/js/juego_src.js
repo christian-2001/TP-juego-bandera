@@ -262,5 +262,12 @@ const mostrar_resultados =  () => {
     //Condiciones para entrar al ranking
     if(puntaje_total >= 20 && cantCorrectas >= 5 && tiempo_total <= 60){
         const result_final = {nick: 'Usuariooo2', ptaje: puntaje_total, resp: cantCorrectas, tiempo_record: tiempo_formato}
+        
+        fetch('/juego', {
+            method: 'POST',
+            headers: {'Content-Type' : 'application/json'},
+            body: JSON.stringify(result_final)
+        })
     }
+    
 }

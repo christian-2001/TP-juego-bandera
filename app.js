@@ -24,6 +24,8 @@ app.use('/', router)
 
 app.use('/juego', router)
 
+app.use('/juego', router)
+
 app.use('/ranking', router)
 
 //Ruta para renderizar el error 404

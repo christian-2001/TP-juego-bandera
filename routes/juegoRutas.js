@@ -11,5 +11,7 @@ router.get('/', controller['inicio'])
 
 router.get('/juego', controller['juego'])
 
+router.post('/juego', controller['resultados'])
+
 router.get('/ranking', controller['ranking'])
 
