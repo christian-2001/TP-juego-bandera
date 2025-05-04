@@ -1,0 +1,17 @@
+doctype
+html(lang="en")
+    head
+        meta(charset="UTF-8")
+        meta(name="viewport", content="width=device-width, initial-scale=1.0")
+            
+        // Tailwind(vía CDN) 
+        script(src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4")   
+        title Ruta inválida
+
+    body#juego(class=`bg-black`) 
+
+    // Contenedor del mensaje
+    .container(class='text-white w-fit ml-auto mr-auto mt-45 text-6xl')
+        h1 La pagina que intentaste acceder
+        h1.mt-10 No se encuentra disponible
+        h1(class='mt-20 text-8xl') ERROR: <span class='font-bold text-[150px]'>404</span>

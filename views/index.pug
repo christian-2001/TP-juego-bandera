@@ -3,19 +3,24 @@ html(lang="en")
     head
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
-        //Link del Tailwind (vía CDN)
+
+        // Tailwind(vía CDN)
         script(src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4")   
         title Geoquiz - Home
 
-        //Cuerpo de la pagina
         body(class='bg-[url(/assets/img/pexels-mike-468229-1174136.jpg)]') 
             div#home(class='w-fit ml-auto mr-auto mt-20 border-5 p-10 bg-black/65 backdrop-invert backdrop-opacity-20')
+
+                // Mensaje de bienvenida
                 h1(class='font-bold text-7xl p-10 text-white text-center') Bienvenido a Geoquiz
 
+                // Botones
                 div#botones(class='w-fit ml-auto mr-auto text-white text-center text-4xl font-light')
 
+                    // Boton que redirige a la pantalla del juego
                     a#jugar(href='/juego')
                         button(type='button' class='block border-4 bg-violet-700 w-70 p-5 hover:bg-blue-500 rounded-4xl') Jugar
-                    
+
+                    // Boton que redirige a la pantalla de ranking
                     a(href='/ranking')
                         button(type="button" class="block border-4 bg-violet-700 w-70 p-5 hover:bg-blue-500 rounded-4xl mt-8") Ver ranking   

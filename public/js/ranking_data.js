@@ -1,21 +1,24 @@
-//Variables
+// Guardamos elementos html
 let select_value = document.getElementById('select_rank')
 let table_data = document.getElementById('rank_content')
+
+// Guardamos la informacion de los usuarios en el ranking
 let ranking = ranking_data
+
 table_data.innerHTML = ''
 
-//Al cargar la pagina, se ordena la tabla por puntaje (mayor a menor puntaje) por predeterminado
+// Al cargar la pagina, se ordena la tabla por puntaje (mayor a menor puntaje) por predeterminado
 document.addEventListener('DOMContentLoaded', () => {
     
     if(select_value.value == 'puntaje'){
 
-        //Ordenamos por puntaje (mayor a menor puntaje)
+        // Ordenamos por puntaje (mayor a menor puntaje)
         ranking.sort((a, b) => b.ptaje - a.ptaje)
 
-        //Se obtienen las mejores 20 partidas
+        // Se obtienen las mejores 20 partidas
         let top20 = ranking.slice(0, 20)
 
-        //Mostramos la tabla ordenada con las mejores 20 partidas
+        // Mostramos la tabla ordenada con las mejores 20 partidas
         table_data.innerHTML = `
             <table class='border-2'>
                 <thead>
@@ -42,20 +45,19 @@ document.addEventListener('DOMContentLoaded', () => {
             </table>
         `  
     }
-
 })
 
-//Se ordena la tabla en funcion del filtro aplicado
+// Se ordena la tabla en funcion del filtro aplicado
 select_value.addEventListener('change', () => {
 
-    //Ordenamos por cantidad de respuestas correctas (mayor a menor cantidad)
+    // Si se filtró por "Resp. Correctas", ordenamos por cantidad de respuestas correctas (mayor a menor cantidad)
     if(select_value.value == 'respuestas'){
         ranking.sort((a, b) => b.resp - a.resp)
 
-        //Se obtiene las mejores 20 partidas
+        // Se obtiene las mejores 20 partidas
         let top20 = ranking.slice(0, 20)
 
-        //Mostramos la tabla ordenada con las mejores 20 partidas
+        // Mostramos la tabla ordenada con las mejores 20 partidas
         document.getElementById('table_body').innerHTML = `
             ${top20.map((rank, index) => `
                 <tr>
@@ -67,16 +69,16 @@ select_value.addEventListener('change', () => {
                 </tr>
             `).join('')}
         `
-    //Ordenamos por puntaje (mayor a menor puntaje)
+    // Si se filtró por "Puntaje", ordenamos por puntaje (mayor a menor puntaje)
     } else if (select_value.value == 'puntaje'){
         ranking.sort((a, b) => b.ptaje - a.ptaje)
 
-        //Se obtienen las mejores 20 partidas
+        // Se obtienen las mejores 20 partidas
         let top20 = ranking.slice(0, 20)
 
-        //Mostramos la tabla ordenada con las mejores 20 partidas
+        // Mostramos la tabla ordenada con las mejores 20 partidas
         document.getElementById('table_body').innerHTML = `
-            ${ranking.map((rank, index) => `
+            ${top20.map((rank, index) => `
                 <tr>
                     <td class='border-4 p-3'> ${index + 1} </td>
                     <td class='border-4 p-3'> ${rank.nick} </td>
@@ -86,10 +88,10 @@ select_value.addEventListener('change', () => {
                 </tr>
             `).join('')}
         `
-    //Ordenar por tiempo total (menor a mayor tiempo)
+    // Si se filtró por "Tiempo", ordenamos por tiempo total (menor a mayor tiempo)
     } else if (select_value.value == 'tiempo'){
 
-        //Para ordenar la tabla, primero se formatea el tiempo total en segundos para determinar su orden
+        // Para ordenar la tabla, primero se formatea el tiempo total en segundos para determinar su orden
         let ordenar_tiempo = ranking_data
 
         const formatear_tiempo = (tiempo) => {
@@ -97,13 +99,13 @@ select_value.addEventListener('change', () => {
             return partes[0] * 60 + partes[1]
         }
 
-        //Ordenamos la tabla
+        // Ordenamos la tabla
         ordenar_tiempo.sort((a,b) => formatear_tiempo(a['tiempo_record']) - formatear_tiempo(b['tiempo_record']))
 
-        //Se obtienen las mejores 20 partidas
+        // Se obtienen las mejores 20 partidas
         let top20 = ordenar_tiempo.slice(0, 20)
 
-        //Mostramos la tabla ordenada con las mejores 20 partidas
+        // Mostramos la tabla ordenada con las mejores 20 partidas
         document.getElementById('table_body').innerHTML = `
             ${top20.map((rank, index) => `
                 <tr>
