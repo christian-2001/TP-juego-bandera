@@ -22,22 +22,22 @@ export const itemCapital = (capitales) => {
     for(let i = 0; i < 3; i++){
         pais_elem = Math.floor(Math.random() * (capitales.length))
         resp = capitales[pais_elem].translations.spa.common
+        if(resp == país_capital){
+            while(resp == país_capital){
+                pais_elem = Math.floor(Math.random() * (capitales.length))
+                resp = capitales[pais_elem].translations.spa.common        
+            }
+        }
         resp_incorrectas.push(resp)
     }
 
-    // console.log(`ANTES: ${resp_incorrectas}`)
-
-    //Creamos un nuevo array sin los paises repetidos en el array anterior en caso de tenerlos
+    //Creamos un nuevo array eliminando respuestas repetidas del array anterior en caso de tenerlos
     const arraySinRepe = [...new Set(resp_incorrectas)]
-    
-    // console.log(`DESPUES: ${arraySinRepe}`)
 
     //En caso que falten elementos, se llena el nuevo array sin repeticiones
     while(arraySinRepe.length < 3){
-        // console.log('AL ARRAY LE FALTA UN ELEMENTO')
         pais_elem = Math.floor(Math.random() * (capitales.length))
         resp = capitales[pais_elem].translations.spa.common
-        // console.log(`ELEMENTO: ${resp}`)
         if(!arraySinRepe.includes(resp)) arraySinRepe.push(resp)
     }
 
@@ -51,8 +51,6 @@ export const itemCapital = (capitales) => {
             arr_index2++
         }
     }
-
-    // console.log(`ARRAY COMPLETO: ${arr_respuestas}` )
 
     //Devuelve la capital y el array con las respuestas
     return {

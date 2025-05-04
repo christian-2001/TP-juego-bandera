@@ -4,22 +4,41 @@ html(lang="en")
         meta(charset="UTF-8")
         meta(name="viewport", content="width=device-width, initial-scale=1.0")
 
+        //Vinculamos la variable "locals" que contiene las preguntas y respuestas
         script.
             const preguntas = !{JSON.stringify(setPreguntas)}
             
+        //Tailwind(vía CDN) 
         script(src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4")   
         title Geoquiz - Juego
 
     body#juego(class=`bg-gradient-to-r from-blue-600 to-lime-400 text-4xl text-black text-center font-mono`) 
 
-        #temporizador(class='text-black text-5xl mt-5')
+        .nick_container(class='w-fit ml-auto mr-auto mt-60 border-4 bg-white p-5')
 
-        .pregunta(class='ml-auto mr-auto mt-9 mb-5 w-fit border-4 p-10 bg-white')      
+            //Texto que pide al usuario ingresar su nick o nombre de usuario
+            label(for='nick_input' class='block text-6xl') Ingrese su nick/nombre
 
-        #pregunta_contador
+            //Input que contiene el nick o nombre de usuario ingresado
+            input#nick(type="text", name="nick_input" class='w-180 border-2 mt-15 text-center text-4xl')
 
+        //Boton que permite cargar el juego completo
+        button.btn_inicio(type="button" class='border-4 bg-white p-5 mt-15 rounded-4xl hover:bg-gray-300 text-4xl') Iniciar juego 
+
+        //Temporizador
+        #temporizador(class='text-black text-5xl mt-5 hidden')
+
+        //Pregunta generada
+        .pregunta(class='ml-auto mr-auto mt-9 mb-5 w-fit border-4 p-10 bg-white hidden')      
+
+        //Contador de preguntas
+        #pregunta_contador(class='hidden')
+
+        //Mensaje que muestra si el usuario respondio o no, la pregunta correctamente y muestra cuanto puntos ganó
         .puntos(class='mt-5')
 
-        .btn_opciones(class='grid grid-cols-2 w-fit ml-auto mr-auto mt-6 mb-auto gap-5')   
+        //Botones que contienen la respuesta correcta y el resto incorrectas
+        .btn_opciones(class='grid grid-cols-2 w-fit ml-auto mr-auto mt-6 mb-auto gap-5 hidden')   
 
+    //Js externo que contiene codigo del juego
     script(src='/js/juego_src.js' defer)

@@ -22,22 +22,22 @@ export const itemBandera = (banderas) => {
     for(let i = 0; i < 3; i++){
         pais_elem = Math.floor(Math.random() * (banderas.length))
         resp = banderas[pais_elem].translations.spa.common
+        if(resp == país_bandera){
+            while(resp == país_bandera){
+                pais_elem = Math.floor(Math.random() * (banderas.length))
+                resp = banderas[pais_elem].translations.spa.common        
+            }
+        }
         resp_incorrectas.push(resp)
     }
 
-    console.log(`ANTES: ${resp_incorrectas.length}`)
-
-    //Creamos un nuevo array sin los paises repetidos en el array anterior en caso de tenerlos
+    //Creamos un nuevo array eliminando respuestas repetidas del array anterior en caso de tenerlos
     const arraySinRepe = [...new Set(resp_incorrectas)]
-
-    console.log(`DESPUES: ${arraySinRepe.length}`)
 
     //En caso que falten elementos, se llena el nuevo array sin repeticiones
     while(arraySinRepe.length < 3){
-        console.log('AL ARRAY LE FALTA UN ELEMENTO')
         pais_elem = Math.floor(Math.random() * (banderas.length))
         resp = banderas[pais_elem].translations.spa.common
-        console.log(`ELEMENTO: ${resp}`)
         if(!arraySinRepe.includes(resp)) arraySinRepe.push(resp)
     }
 
@@ -52,9 +52,7 @@ export const itemBandera = (banderas) => {
         }
     }
 
-    console.log(`ARRAY COMPLETO: ${arr_respuestas.length}` )
-
-    //Devuelve la bandera y el array con las opciones
+    //Devuelve la bandera y el array con las respuestas
     return {
         pregunta: 'El país xx esta representado por la siguiente bandera',
         bandera: select_bandera, 

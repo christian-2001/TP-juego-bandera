@@ -1,3 +1,4 @@
+//Variables
 let index = 0 //Usado para iterar sobre las preguntas
 let [tiempo_inicio, tiempo_final, tiempo_total] = [10, 0, 0] // [Tiempo establecido para el temporizador, tiempo tardado en responder, tiempo total de la partida]
 let [puntaje, puntaje_total] = [0, 0] // [puntaje obtenido en la pregunta, puntaje acumulado en la partida]
@@ -8,23 +9,67 @@ let tiempo_promedio = 0 //El tiempo promedio tardado en responder cada pregunta
 let [minutos, segundos]  = [0, 0] // [Cantidad de minutos, cantidad de segundos]
 let duracion_msj = '' //Imprime en la pantalla de resultados, el tiempo total de la partida
 
-//Cuando carga la pagina, genera el juego completo
-document.addEventListener("DOMContentLoaded", () => {
+//Variable que guarda el nick ingresado por el usuario en un input
+let nick_name = ''
+
+//Guardamos elementos html en variables
+const nick_container = document.querySelector('.nick_container')
+const nick_input = document.getElementById('nick')
+const boton_inicio = document.querySelector('.btn_inicio')
+const temporizador_elem = document.getElementById('temporizador')
+const pregunta_elem = document.querySelector('.pregunta')
+const pregunta_contador = document.getElementById('pregunta_contador')
+const btn_opciones = document.querySelector('.btn_opciones')
+const puntos_elem = document.querySelector('.puntos')
+
+//Indica si el usuario entró o no al ranking
+let clasificado = false
+
+//Mensaje que se crea si el usuario entró o no al ranking
+let clasificado_msj = ''
+
+//Guarda la partida del usuario
+let result_final
+
+//Al ingresar nuestro nick o nombre de usuario y dar click a "Iniciar juego", genera el juego completo
+boton_inicio.addEventListener('click', () => {
+    
+    //Obtiene el nick ingresado 
+    nick_name = nick_input.value
+
+    //Desabilita el texto, input y boton de "Iniciar juego"
+    nick_container.style.display = 'none'
+    boton_inicio.style.display = 'none'
+
+    //Habilitamos los elementos necesarios para generar el juego completo y mostrarlo por pantalla
+    temporizador_elem.style.display = 'block'
+    pregunta_elem.style.display = 'block'
+    pregunta_contador.style.display = 'block'
+    btn_opciones.style.display = 'grid'
+    btn_opciones.style.gridTemplateColumns = 'repeat(2, 1fr)';
+    puntos_elem.style.display = 'block'
+    console.log(nick_name)
+
+    //Genera el juego con las preguntas y respuestas
     mostrarPregunta()
-});
+})
 
 const mostrarPregunta = () => {
+    
+    //Temporizador inicializado con 10 segundos
     temporizador = tiempo_inicio
-    let buttons = ''
-    let item = ''
 
-    const h1_pregunta = `<h1>${preguntas[index]['pregunta']}</h1>`
+    let buttons = '' //Botones que contienen la respuesta correcta y el resto incorrectas
+    let item = '' //Item de la pregunta (si es capital, bandera o pais que limitra con otros)
+
+    const h1_pregunta = `<h1>${preguntas[index]['pregunta']}</h1>` //Genera la pregunta
     
     //Si la pregunta elegida se trata de la capital de un pais, mostramos la pregunta y respuestas
     if(preguntas[index]['capital']){
     
-        item = `<h1 class='text-center mt-10 text-blue-500 '>${preguntas[index]['capital']}</h1>`
-
+        item = `<h1 class='text-center mt-10 text-blue-500 '>${preguntas[index]['capital']}</h1>` //Muestra la pregunta
+        
+        //Genera las respuestas
         preguntas[index]['respuestas'].forEach(resp => {
             if(resp['correcta']){
                 buttons += `<button id='green' class='bg-white p-4 border-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()'>${resp['correcta']}</button>`
@@ -38,8 +83,9 @@ const mostrarPregunta = () => {
     
         //Si la pregunta elegida se trata de la bandera de un pais, mostramos la pregunta y respuestas
     } else if(preguntas[index]['bandera']){
-        item = `<img src=${preguntas[index]['bandera']} loading='lazy' width='320' height='240' class='border-4 border-solid mt-10 w-auto ml-auto mr-auto'>`
-    
+        item = `<img src=${preguntas[index]['bandera']} loading='lazy' width='320' height='240' class='border-4 border-solid mt-10 w-auto ml-auto mr-auto'>` //Muestra la pregunta
+        
+        //Genera las respuestas
         preguntas[index]['respuestas'].forEach(resp => {
             if(resp['correcta']){
                 buttons += `<button id='green' class='bg-white p-4 border-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()'>${resp['correcta']}</button>`
@@ -53,8 +99,9 @@ const mostrarPregunta = () => {
 
     //Si la pregunta elegida se trata de un pais que limita con otros, mostramos la pregunta y respuestas
     } else if(preguntas[index]['pais']){
-        item = `<h1 class='text-center mt-10 text-green-600'>${preguntas[index]['pais']}</h1>`
-
+        item = `<h1 class='text-center mt-10 text-green-600'>${preguntas[index]['pais']}</h1>` //Muestra la pregunta
+        
+        //Genera las respuestas
         preguntas[index]['respuestas'].forEach(resp => {
             if(resp['correcta'] !== undefined){
                 buttons += `<button id='green' class='bg-white p-4 border-4 rounded-4xl hover:-translate-y-1 hover:bg-gray-400' onclick='resp_correcta()'>${resp['correcta']}</button>`
@@ -68,28 +115,34 @@ const mostrarPregunta = () => {
     }
 
     //Cargamos el temporizador con 10 segundos por pregunta
-    document.getElementById('temporizador').innerHTML = `<h1> Tiempo: 0:10 </h1>`
+    temporizador_elem.innerHTML = `<h1> Tiempo: 0:10 </h1>`
 
     //Cargamos la pregunta
-    document.querySelector('.pregunta').innerHTML = ` ${h1_pregunta} ${item} `
+    pregunta_elem.innerHTML = ` ${h1_pregunta} ${item} `
 
     //Cargamos un contador de preguntas
-    document.getElementById('pregunta_contador').innerHTML = `Preguntas ${index + 1}/10`
+    pregunta_contador.innerHTML = `Preguntas ${index + 1}/10`
     
     //Cargamos las respuestas como botones, que el usuario puede hacer click, en una de ellas, para responder la pregunta
-    document.querySelector('.btn_opciones').innerHTML = `${buttons}`
+    btn_opciones.innerHTML = `${buttons}`
 
     //Cargamos un mensaje que dice si el usuario respondio bien o mal la pregunta, o no ha respondido nada en 10 segundos
-    document.querySelector('.puntos').innerHTML = ''
+    puntos_elem.innerHTML = ''
 
     //Funcion que permite funcionar el temporizador, el setInterval se ejecuta cada 1000 milisegundos pasados
     conteo = setInterval(() => {
+
+        //Descontamos un segundo del temporizador
         temporizador--
         document.getElementById('temporizador').innerHTML = `Tiempo: 0:0${temporizador}`
+        
+        //Cuando el temporizador llegue a 0
         if(temporizador == 0) {
+
             //Si el usuario no ha respondidos en los 10 segundos restantes, muestra un mensaje indicando que, se acabó el tiempo y que no ha ganado puntos
             document.querySelector('.puntos').innerHTML = `<h1 class='bg-white p-5 w-fit ml-auto mr-auto border-4'> Tiempo fuera!!! no ganas puntos </h1>`
-            //Luego de 10 segundos, el usuario no puede hacer click en ninguna respuesta
+
+            //Luego de 10 segundos, se deshabilita los botones y el usuario no puede hacer click en ninguno de ellos
             const botones = document.querySelectorAll('button')
             botones.forEach(btn => {
                 btn.disabled = true
@@ -117,24 +170,21 @@ const resp_correcta = () =>{
     //Aumentamos el contador de respuestas correctas
     cantCorrectas++
 
-    //Obtiene el elemento button, se pinta de color verde y deshabilita sus clases
+    //Obtiene el boton con la respuesta correcta, se pinta de color verde y deshabilita sus clases
     const btn_green = document.getElementById('green')
     btn_green.style.backgroundColor = '#84cc16'
     btn_green.classList.remove('hover:-translate-y-1')
     btn_green.classList.remove('hover:bg-gray-400')
     
-    //Guarda un array de todos los elementos button con la clase '.red'
+    //Guardo los botones con las respuestas incorrectas
     const btn_red = document.querySelectorAll('.red')
 
-    //Deshabilita las clases y desactiva todos los button guardados
+    //Se deshabilitan estos botones junto a sus clases y se pintan de color rojo
     for(let r = 0; r < btn_red.length; r++){  
         btn_red[r].classList.remove('hover:-translate-y-1')
         btn_red[r].classList.remove('hover:bg-gray-400')
         btn_red[r].disabled = 'true'
     }
-
-    //Al contestar correctamente, no se descuentan 10000 puntos
-    dto_respIncorrecta = 0
 
     //Si responde correctamente, gana puntos
     puntaje_total += puntaje
@@ -153,10 +203,10 @@ const resp_incorrectas = () =>{
     // Se detiene el temporizador
     clearInterval(conteo)
 
-    //Guardo los buttons con la clase '.red'
+    //Guardo los botones con las respuestas incorrectas
     const btn_red = document.querySelectorAll('.red')
 
-    //Deshabilita sus clases, se desactivan y se pintan de color rojo
+    //Se deshabilitan los botones junto a sus clases y se pintan de color rojo
     for(let r = 0; r < btn_red.length; r++){
         btn_red[r].style.backgroundColor = "#ef4444";    
         btn_red[r].classList.remove('hover:-translate-y-1')
@@ -164,10 +214,10 @@ const resp_incorrectas = () =>{
         btn_red[r].disabled = 'true'
     }
 
-    //Guarda el button con el id '#green'
+    //Guarda el boton con al respuesta correcta 
     const btn_green = document.getElementById('green')
 
-    //Se pinta de color verde, deshabilita sus clases y lo desactiva
+    //Se pinta de color verde y deshabilita el boton y sus clases
     btn_green.style.backgroundColor = '#84cc16'
     btn_green.classList.remove('hover:-translate-y-1')
     btn_green.classList.remove('hover:bg-gray-400')
@@ -194,23 +244,24 @@ const avanzar = () => {
     //Incrementa a uno la variable que permite pasar a otra pregunta
     index++
 
-    // El tiempo total es la suma del tiempo restante en el temporizador después de cada respuesta
+    //Obtenemos el tiempo total, sumando en cada pregunta, el resultado de la diferencia entre los 10 segundos iniciales y el tiempo sobrante en el temporizador
     tiempo_total += temporizador != 10 ? tiempo_inicio - temporizador : 0
 
-    //Si la variable no llega a 10, pasa a la otra pregunta, si no, mostramos los resultados de la partida
+    //Si la variable es menor que 10, pasa a la otra pregunta, si no, mostramos los resultados de la partida
     if(index < 10){
         setTimeout(() => {
             mostrarPregunta()
         }, 2000);
     } else {
-        //Obteniendo los minutos y segundos
+        
+        //Se obtienen los minutos y segundos
         minutos = tiempo_total >= 60 ? Math.floor((tiempo_total / 60)) : 0
         segundos = tiempo_total
         while(segundos >= 60){
             segundos -= 60
         }
 
-        //Creando el mensaje del tiempo total que se verá en la pantalla de resultados
+        //Creamos el mensaje del tiempo total que se verá en la pantalla de resultados
         if(tiempo_total < 60){
             duracion_msj = `<h1 class='text-left mt-10'> Tiempo total de la partida: ${segundos} segundos  </h1>`
         } else if (tiempo_total == 60){
@@ -236,7 +287,17 @@ const mostrar_resultados =  () => {
     if(tiempo_total === 60) tiempo_formato = `${minutos}:00`
     if(tiempo_total > 60) tiempo_formato = `${minutos}:${segundos}`
 
-    //Imprimiendo pantalla con la informacion
+    /*
+        Si el usuario cumple con las condiciones para entrar al ranking, se clasifica, se guarda informacion de la partida
+        y se crea el mensaje notificando al usuario que ha clasificado
+    */
+    if(puntaje_total >= 15 && cantCorrectas >= 5 && tiempo_total <= 60){
+        clasificado = true
+        result_final = {nick: nick_name, ptaje: puntaje_total, resp: cantCorrectas, tiempo_record: tiempo_formato}
+        clasificado_msj = `<h1 class='text-center mt-10'> ¡Felicidades! Entraste al ranking </h1>`
+    } 
+
+    //Mostrando pantalla de resultados
     document.body.innerHTML = `
         <div class='w-fit ml-auto mr-auto mt-30 border-4 bg-white p-20'>
             <h1 class='text-center'> Resultados de la partida </h1>
@@ -244,6 +305,7 @@ const mostrar_resultados =  () => {
             <h1 class='text-left mt-10'> Tiempo promedio por pregunta: ${tiempo_promedio} segundo/s </h1>
             <h1 class='text-left mt-10'> Respuestas correctas: ${cantCorrectas} de 10 </h1>
             <h1 class='text-left mt-10'> Puntaje final: ${puntaje_total} </h1>
+            ${clasificado_msj}
         </div>
 
         <div class='buttons w-fit ml-auto mr-auto mt-10'>
@@ -259,10 +321,8 @@ const mostrar_resultados =  () => {
         </div>
     `
 
-    //Condiciones para entrar al ranking
-    if(puntaje_total >= 20 && cantCorrectas >= 5 && tiempo_total <= 60){
-        const result_final = {nick: 'Usuariooo2', ptaje: puntaje_total, resp: cantCorrectas, tiempo_record: tiempo_formato}
-        
+    //Hago fetch a la siguiente ruta como POST enviando el resultado de la partida del usuario, solo si ha clasificado
+    if(clasificado){        
         fetch('/juego', {
             method: 'POST',
             headers: {'Content-Type' : 'application/json'},
