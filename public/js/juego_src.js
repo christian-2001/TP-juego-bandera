@@ -48,8 +48,7 @@ boton_inicio.addEventListener('click', () => {
     btn_opciones.style.display = 'grid'
     btn_opciones.style.gridTemplateColumns = 'repeat(2, 1fr)';
     puntos_elem.style.display = 'block'
-    console.log(nick_name)
-
+    
     // Genera el juego con las preguntas y respuestas
     mostrarPregunta()
 })
