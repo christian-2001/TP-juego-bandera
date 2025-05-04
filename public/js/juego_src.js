@@ -2,7 +2,9 @@
 let index = 0 // Usado para iterar sobre las preguntas
 let [tiempo_inicio, tiempo_final, tiempo_total] = [10, 0, 0] // [Tiempo establecido para el temporizador, tiempo tardado en responder, tiempo total de la partida]
 let [puntaje, puntaje_total] = [0, 0] // [puntaje obtenido en la pregunta, puntaje acumulado en la partida]
-let cantCorrectas = 0 // Refleja la cantidad de respuestas correctas
+let cantCorrectas = 0 // Cantidad de respuestas correctas
+let cantIncorrectas = 0 // Cantidad de respuestas incorrectas
+let sinRespuestas = 0 // Cantidad de veces que el usuario no respondió la pregunta
 let temporizador = 10 // Tiempo restante para responder una pregunta
 let conteo // Variable que guarda en cada pregunta, una funcion que permite descontar segundos del temporizador
 let tiempo_promedio = 0 // El tiempo promedio tardado en responder cada pregunta
@@ -48,7 +50,7 @@ boton_inicio.addEventListener('click', () => {
     btn_opciones.style.display = 'grid'
     btn_opciones.style.gridTemplateColumns = 'repeat(2, 1fr)';
     puntos_elem.style.display = 'block'
-    
+
     // Genera el juego con las preguntas y respuestas
     mostrarPregunta()
 })
@@ -141,6 +143,9 @@ const mostrarPregunta = () => {
             // Si el usuario no ha respondidos en los 10 segundos restantes, muestra un mensaje indicando que, se acabó el tiempo y que no ha ganado puntos
             document.querySelector('.puntos').innerHTML = `<h1 class='bg-white p-5 w-fit ml-auto mr-auto border-4'> Tiempo fuera!!! no ganas puntos </h1>`
 
+            // Aumentamos la cantidad de veces que el usuario no respondió la pregunta
+            sinRespuestas++
+
             // Luego de 10 segundos, se deshabilita los botones y el usuario no puede hacer click en ninguno de ellos
             const botones = document.querySelectorAll('button')
             botones.forEach(btn => {
@@ -199,6 +204,9 @@ const resp_incorrectas = () =>{
     
     // Se detiene el temporizador
     clearInterval(conteo)
+
+    // Aumentamos el contador de respuestas incorrectas
+    cantIncorrectas++
 
     // Guardo los botones con las respuestas incorrectas
     const btn_red = document.querySelectorAll('.red')
@@ -296,11 +304,13 @@ const mostrar_resultados =  () => {
 
     // Mostrando pantalla de resultados
     document.body.innerHTML = `
-        <div class='w-fit ml-auto mr-auto mt-30 border-4 bg-white p-20'>
+        <div class='w-fit ml-auto mr-auto mt-15 border-4 bg-white p-20'>
             <h1 class='text-center'> Resultados de la partida </h1>
             ${duracion_msj}
             <h1 class='text-left mt-10'> Tiempo promedio por pregunta: ${tiempo_promedio} segundo/s </h1>
             <h1 class='text-left mt-10'> Respuestas correctas: ${cantCorrectas} de 10 </h1>
+            <h1 class='text-left mt-10'> Respuestas incorrectas: ${cantIncorrectas} de 10 </h1>
+            <h1 class='text-left mt-10'> Sin respuestas: ${sinRespuestas} de 10 </h1>
             <h1 class='text-left mt-10'> Puntaje final: ${puntaje_total} </h1>
             ${clasificado_msj}
         </div>
