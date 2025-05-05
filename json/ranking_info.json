@@ -1,27 +1,27 @@
 [
    {
       "nick": "Alex_1",
-      "ptaje": 16,
+      "ptaje": 15,
       "resp": 5,
-      "tiempo_record": "0:21"
+      "tiempo_record": "1:00"
    },
    {
       "nick": "Fausto_2",
-      "ptaje": 22,
+      "ptaje": 15,
       "resp": 7,
-      "tiempo_record": "0:20"
+      "tiempo_record": "0:50"
    },
    {
       "nick": "Constantino_3",
-      "ptaje": 18,
+      "ptaje": 15,
       "resp": 5,
       "tiempo_record": "0:37"
    },
    {
       "nick": "Pamela_4",
-      "ptaje": 16,
+      "ptaje": 15,
       "resp": 5,
-      "tiempo_record": "0:14"
+      "tiempo_record": "0:45"
    },
    {
       "nick": "Roque_5",
@@ -37,86 +37,86 @@
    },
    {
       "nick": "Gabriel_7",
-      "ptaje": 18,
+      "ptaje": 15,
       "resp": 5,
       "tiempo_record": "0:24"
    },
    {
       "nick": "Victor_8",
-      "ptaje": 17,
+      "ptaje": 15,
       "resp": 6,
-      "tiempo_record": "0:20"
+      "tiempo_record": "0:30"
    },
    {
       "nick": "Mateo_9",
       "ptaje": 19,
       "resp": 6,
-      "tiempo_record": "0:31"
+      "tiempo_record": "0:35"
    },
    {
       "nick": "Juani_10",
       "ptaje": 16,
       "resp": 5,
-      "tiempo_record": "0:28"
+      "tiempo_record": "0:48"
    },
    {
       "nick": "Jonathan_11",
       "ptaje": 19,
       "resp": 6,
-      "tiempo_record": "0:27"
+      "tiempo_record": "0:38"
    },
    {
       "nick": "Jose_12",
       "ptaje": 19,
       "resp": 6,
-      "tiempo_record": "0:25"
+      "tiempo_record": "0:50"
    },
    {
       "nick": "Tomi_13",
-      "ptaje": 18,
+      "ptaje": 15,
       "resp": 5,
-      "tiempo_record": "0:25"
+      "tiempo_record": "0:48"
    },
    {
       "nick": "Ramiro_14",
       "ptaje": 20,
       "resp": 7,
-      "tiempo_record": "0:19"
+      "tiempo_record": "0:43"
    },
    {
       "nick": "Fulano_15",
       "ptaje": 21,
       "resp": 6,
-      "tiempo_record": "0:23"
+      "tiempo_record": "0:52"
    },
    {
       "nick": "Rodrigo_16",
-      "ptaje": 18,
+      "ptaje": 15,
       "resp": 5,
-      "tiempo_record": "0:26"
+      "tiempo_record": "0:35"
    },
    {
       "nick": "Claudio_17",
       "ptaje": 24,
       "resp": 7,
-      "tiempo_record": "0:17"
+      "tiempo_record": "0:45"
    },
    {
       "nick": "Berta_18",
       "ptaje": 17,
       "resp": 6,
-      "tiempo_record": "0:40"
+      "tiempo_record": "0:55"
    },
    {
       "nick": "Luz_19",
       "ptaje": 22,
       "resp": 7,
-      "tiempo_record": "0:37"
+      "tiempo_record": "0:40"
    },
    {
       "nick": "Sol_20",
       "ptaje": 26,
       "resp": 8,
-      "tiempo_record": "0:33"
+      "tiempo_record": "1:00"
    }
 ]
