@@ -33,12 +33,25 @@ let clasificado_msj = ''
 // Guarda la partida del usuario
 let result_final
 
+/*
+    Expresion regular que valida el nick 
+    * Debe contener una mayuscula, minuscula y un numero
+    * Debe tener entre 8 y 20 caracteres
+    * No debe tener caracteres especiales
+    * No debe tener puntos y espacios
+*/
+validar_nick = /^(?=.*\d)(?=.*[A-Z])(?=.*[a-z])[A-Za-z\d_-]{8,20}$/
+
 // Al ingresar nuestro nick o nombre de usuario y dar click a "Iniciar juego", genera el juego completo
 boton_inicio.addEventListener('click', () => {
     
     // Obtiene el nick ingresado 
     nick_name = nick_input.value
 
+    if(!validar_nick.test(nick_name)){
+        const msj = document.querySelector('.validacion_nick')
+        return msj.style.display = 'block'
+    }
     // Desabilita el texto, input y boton de "Iniciar juego"
     nick_container.style.display = 'none'
     boton_inicio.style.display = 'none'
@@ -310,7 +323,7 @@ const mostrar_resultados =  () => {
             <h1 class='text-left mt-10'> Tiempo promedio por pregunta: ${tiempo_promedio} segundo/s </h1>
             <h1 class='text-left mt-10'> Respuestas correctas: ${cantCorrectas} de 10 </h1>
             <h1 class='text-left mt-10'> Respuestas incorrectas: ${cantIncorrectas} de 10 </h1>
-            <h1 class='text-left mt-10'> Sin respuestas: ${sinRespuestas} de 10 </h1>
+            <h1 class='text-left mt-10'> Preguntas sin responder: ${sinRespuestas} de 10 </h1>
             <h1 class='text-left mt-10'> Puntaje final: ${puntaje_total} </h1>
             ${clasificado_msj}
         </div>

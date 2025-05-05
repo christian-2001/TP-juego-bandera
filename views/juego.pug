@@ -14,13 +14,22 @@ html(lang="en")
 
     body#juego(class=`bg-gradient-to-r from-blue-600 to-lime-400 text-4xl text-black text-center font-mono`) 
 
-        .nick_container(class='w-fit ml-auto mr-auto mt-60 border-4 bg-white p-5')
+        .nick_container(class='w-200 ml-auto mr-auto mt-30 border-4 bg-white p-5')
 
             // Texto que pide al usuario ingresar su nick o nombre de usuario
-            label(for='nick_input' class='block text-6xl') Ingrese su nick/nombre
+            // Debe cumplir con lo pedido para que el nick sea valido
+            p(class= 'text-6xl font-bold') Ingrese su nick/nombre
+            p(class= 'text-4xl-text-left mt-5') *Debe tener al menos una mayuscula, minuscula y un numero
+            p(class= 'text-4xl-text-left mt-3') *Debe tener entre 8 y 20 caracteres
+            p(class= 'text-4xl-text-left mt-3') *No se permiten caracteres especiales
+            p(class= 'text-4xl-text-left mt-3') *No se permiten puntos y espacios
 
             // Input que contiene el nick o nombre de usuario ingresado
-            input#nick(type="text", name="nick_input" class='w-180 border-2 mt-15 text-center text-4xl')
+            input#nick(type="text", name="nick_input" class='w-180 border-2 mt-10 text-center text-4xl')
+
+            //Mensaje que informa al usuario que el nick no es valido
+            h1.validacion_nick(class='bg-red-300 w-fit ml-auto mr-auto p-5 text-4xl mt-5 mb-5 hidden')
+                p Nick no valido
 
         // Boton que permite cargar el juego completo
         button.btn_inicio(type="button" class='border-4 bg-white p-5 mt-15 rounded-4xl hover:bg-gray-300 text-4xl') Iniciar juego 
